@@ -1,0 +1,41 @@
+#%RAML 1.0 DataType
+
+type: object
+properties:
+  customer:
+    type: object
+    properties:
+      firstName?:
+        type: string
+        description: First Name 
+        example: "John"
+      lastName?:
+        type: string
+        description: Last Name 
+        example: "Doe"
+      dob:
+        type: string
+        description: Date of Birth in format dd/mm/yyyy
+        example: "01/01/1991"
+      email:
+        type: string
+        description: Email
+        example: "john.doe@email.com"
+  travelDetails:
+    type: object
+    properties:
+      destination:
+        type: string
+        description: Destination 
+        example: "Singapore"
+      departureDate:
+        type: string
+        description: Departure Date in format dd/mm/yyyy
+        example: "01/01/2023"
+      returnDate:
+        type: string
+        description: Return Date in format dd/mm/yyyy
+        example: "11/01/2023"
+
+examples: !include /examples/searchQuotationRequest.raml
+  

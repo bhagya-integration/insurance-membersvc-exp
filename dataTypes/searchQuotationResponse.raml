@@ -1,0 +1,24 @@
+#%RAML 1.0 DataType
+
+type: object
+properties:
+  quoteId:
+    type: string
+    description: Quotation Id
+    example: "167e4af6-a121-11ed-a8fc-0242ac120002"
+  insurancePlan:
+    type: array
+    minItems: 3
+    items:
+      properties:
+        planName:
+          type: string
+          description: Plan Name
+          example: "Silver"
+        premium:
+          type: number
+          description: Premium Amount
+          example: 100
+
+examples: !include /examples/searchQuotationResponse.raml
+  

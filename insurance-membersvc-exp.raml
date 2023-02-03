@@ -1,0 +1,87 @@
+#%RAML 1.0
+title: insurance-membersvc-exp
+version: v1.0
+protocols: [HTTPS]
+mediaType: [application/json]
+description: This API is used by customers for account creation, purchase/renew insurance, check their insurance portfolio and submit a claim.
+
+types:
+  searchQuotesRequest: !include dataTypes/searchQuotationRequest.raml
+  searchQuotesResponse: !include dataTypes/searchQuotationResponse.raml
+  saveQuote: !include /dataTypes/saveQuoteRequest.raml
+  issuePolicy: !include /dataTypes/issuePolicyRequest.raml
+  errorResponse: !include /dataTypes/errorResponse.raml
+
+traits:
+  client-id-enforcement:
+    headers:
+      client_id:
+        type: string
+      client_secret:
+        type: string
+
+securitySchemes:
+  oauth_2_0:
+    type: OAuth 2.0
+    describedBy:
+      headers:
+        Authorization:
+            description: Valid OAuth token.
+            type: string
+
+/travel:
+  /insurance:
+    /quotes:
+      securedBy: oauth_2_0
+      is: [client-id-enforcement]
+      post:
+        description: This endpoint is used to save the selected insurance option 
+        body:
+          application/json:
+            type: saveQuote
+        responses:
+          200:
+            body:
+              application/json:
+                example: |
+                  {"message" : "Saved your selection!!"}
+          400:
+            body:
+              application/json:
+                type: errorResponse
+
+      /search:
+        securedBy: oauth_2_0
+        is: [client-id-enforcement]
+        post:
+          description: This endpoint it used to get travel insurance quotes based on input values
+          body:
+            application/json:
+              type: searchQuotesRequest
+          responses:
+            200:
+              body:
+                application/json:
+                  type: searchQuotesResponse
+                 
+    /policies:
+      securedBy: oauth_2_0
+      is: [client-id-enforcement]
+      post:  
+        description: This endpoint is used to issue policy
+        body:
+            application/json:
+              type: issuePolicy 
+        responses:
+          200:
+            body:
+              application/json:
+                example: |
+                  {"message" : "We have received your request, we will notify you once its processed!!"}
+
+                  
+        
+
+
+        
+
